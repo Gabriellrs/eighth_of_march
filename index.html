@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feliz Dia das Mulheres</title>
+    <title>Feliz Dia Das Mulheres</title>
     <style>
         * {
             box-sizing: border-box;
@@ -31,17 +31,10 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            transition: transform 0.5s ease-in-out;
         }
-        .envelope::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: white;
-            clip-path: polygon(0% 0%, 100% 0%, 50% 50%);
-            border-bottom: 2px solid #ff69b4;
+        .envelope:hover {
+            transform: scale(1.1);
         }
         .heart-seal {
             width: 50px;
@@ -57,7 +50,6 @@
             z-index: 10;
         }
         .hearts {
-            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -70,11 +62,13 @@
             color: red;
             font-size: 2vw;
             position: absolute;
+            bottom: 0;
+            opacity: 0;
             animation: float 5s linear infinite;
         }
         @keyframes float {
             0% { transform: translateY(100vh); opacity: 1; }
-            100% { transform: translateY(-100vh); opacity: 0; }
+            100% { transform: translateY(-100vh); opacity: 1; }
         }
         .rose, .message {
             position: absolute;
@@ -111,19 +105,22 @@
             const heartsContainer = document.querySelector('.hearts');
             const rose = document.querySelector('.rose');
             const message = document.querySelector('.message');
-
-            heartsContainer.innerHTML = '';
-            for (let i = 0; i < 50; i++) {
+            
+            function createHeart() {
                 const heart = document.createElement('div');
                 heart.classList.add('heart');
                 heart.textContent = '❤️';
                 heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.bottom = '0';
-                heart.style.animationDelay = Math.random() * 2 + 's';
+                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
                 heartsContainer.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
             }
-
-            heartsContainer.style.display = 'block';
+            
+            setInterval(createHeart, 200);
+            
             rose.style.display = 'block';
             message.style.display = 'block';
         }
